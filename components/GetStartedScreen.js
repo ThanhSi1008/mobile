@@ -11,41 +11,42 @@ const bikes = [
   { id: '6', name: 'Pinarello', price: '$1350', image: 'https://link_to_image_6.png' },
 ];
 
-const GetStartedScreen = () => {
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <Text style={styles.bikeName}>{item.name}</Text>
-      <Text style={styles.price}>{item.price}</Text>
-      <TouchableOpacity style={styles.heartButton}>
-        <Text>❤️</Text>
+const GetStartedScreen = ({ navigation }) => {
+    const renderItem = ({ item }) => (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => navigation.navigate('BikeDetail', { bike: item })}
+      >
+        <Image source={{ uri: item.image }} style={styles.image} />
+        <Text style={styles.bikeName}>{item.name}</Text>
+        <Text style={styles.price}>{item.price}</Text>
+        <TouchableOpacity style={styles.heartButton}>
+          <Text>❤️</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
-    </View>
-  );
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>The world’s Best Bike</Text>
-
-      {/* Filter Buttons */}
-      <View style={styles.filterContainer}>
-        <TouchableOpacity style={styles.filterButton}><Text>All</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}><Text>Roadbike</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}><Text>Mountain</Text></TouchableOpacity>
+    );
+  
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>The world’s Best Bike</Text>
+  
+        <View style={styles.filterContainer}>
+          <TouchableOpacity style={styles.filterButton}><Text>All</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.filterButton}><Text>Roadbike</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.filterButton}><Text>Mountain</Text></TouchableOpacity>
+        </View>
+  
+        <FlatList
+          data={bikes}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+        />
       </View>
-
-      {/* Bike List */}
-      <FlatList
-        data={bikes}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-      />
-    </View>
-  );
-};
-
+    );
+  };
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,
